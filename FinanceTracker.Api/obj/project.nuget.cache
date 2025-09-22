@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Rcc0MESaa78=",
+  "success": true,
+  "projectFilePath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/FinanceTracker.Api.csproj",
+  "expectedPackageFiles": [
+    "/Users/ninalanier/.nuget/packages/microsoft.aspnetcore.openapi/9.0.8/microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
