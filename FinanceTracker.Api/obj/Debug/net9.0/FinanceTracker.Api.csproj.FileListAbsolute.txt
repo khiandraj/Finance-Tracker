@@ -34,3 +34,5 @@
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/FinanceTracker.Api.xml
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/obj/Debug/net9.0/FinanceTracker.Api.xml
