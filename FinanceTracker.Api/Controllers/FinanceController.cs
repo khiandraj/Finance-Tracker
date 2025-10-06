@@ -9,7 +9,7 @@ namespace FinanceTracker.Api.Controllers
     public class FinanceController : ControllerBase
     {
         private static List<Transaction> _transactions = new();
-
+        private static List<User> _users = new();
         [HttpGet]
         public ActionResult<IEnumerable<Transaction>> GetTransactions()
         {
@@ -46,5 +46,11 @@ namespace FinanceTracker.Api.Controllers
         public string Description { get; set; } = string.Empty;
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
+    }
+
+    public class User
+    {
+        public int Id { get; set; }
+        public string Username { get; set; } = string.Empty;
     }
 }
