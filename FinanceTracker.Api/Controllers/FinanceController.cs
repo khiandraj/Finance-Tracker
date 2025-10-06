@@ -9,7 +9,7 @@ namespace FinanceTracker.Api.Controllers
     public class FinanceController : ControllerBase
     {
         private static List<Transaction> _transactions = new();
-        private static List<User> _users = new();;
+        private static List<User> _users = new();
         [HttpGet]
         public ActionResult<IEnumerable<Transaction>> GetTransactions()
         {
