@@ -38,6 +38,20 @@ namespace FinanceTracker.Api.Controllers
             _transactions.Remove(transaction);
             return NoContent();
         }
+
+        [HttpPost("adduser")]
+        public ActionResult<User> AddUser([FromBody] User user)
+        {
+            if (string.IsNullOrEmpty(user.Username))
+                return BadRequest("Username cannot be empty.");
+            if (_users.Any(u => u.Username == user.Username))
+                return Conflict("Username already exists.");
+
+            user.Id = _users.Count > 0 ? _users.Max(u => u.Id) + 1 : 1;
+            _users.Add(user);
+
+            return Ok(user);
+        }
     }
 
     public class Transaction
