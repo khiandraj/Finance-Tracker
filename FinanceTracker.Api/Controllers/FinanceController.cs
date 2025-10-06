@@ -52,6 +52,12 @@ namespace FinanceTracker.Api.Controllers
 
             return Ok(user);
         }
+
+         [HttpGet("users")]
+        public ActionResult<IEnumerable<User>> GetUsers()
+        {
+            return Ok(_users);
+        }
     }
 
     public class Transaction
