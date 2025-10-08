@@ -58,8 +58,23 @@ namespace FinanceTracker.Api.Controllers
         {
             return Ok(_users);
         }
-        
-        
+
+        [HttpPost("login")]
+        public ActionResult<string> Login([FromBody] User loginRequest)
+        {
+             if (string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
+                return BadRequest("Username and password are required.");
+
+            var user = _users.FirstOrDefault(u => u.Username == loginRequest.Username);
+
+            if (user == null)
+                return NotFound("User not found.");
+
+            if (user.Password != loginRequest.Password)
+                return Unauthorized("Invalid password.");
+
+            return Ok($"Welcome back, {user.Username}!");
+        }
     }
 
     public class Transaction
