@@ -42,8 +42,8 @@ namespace FinanceTracker.Api.Controllers
         [HttpPost("adduser")]
         public ActionResult<User> AddUser([FromBody] User user)
         {
-            if (string.IsNullOrEmpty(user.Username))
-                return BadRequest("Username cannot be empty.");
+            if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+                return BadRequest("Username and password are required.");
             if (_users.Any(u => u.Username == user.Username))
                 return Conflict("Username already exists.");
 
@@ -53,10 +53,27 @@ namespace FinanceTracker.Api.Controllers
             return Ok(user);
         }
 
-         [HttpGet("users")]
+        [HttpGet("users")]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             return Ok(_users);
+        }
+
+        [HttpPost("login")]
+        public ActionResult<string> Login([FromBody] User loginRequest)
+        {
+             if (string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
+                return BadRequest("Username and password are required.");
+
+            var user = _users.FirstOrDefault(u => u.Username == loginRequest.Username);
+
+            if (user == null)
+                return NotFound("User not found.");
+
+            if (user.Password != loginRequest.Password)
+                return Unauthorized("Invalid password.");
+
+            return Ok($"Welcome back, {user.Username}!");
         }
     }
 
@@ -72,5 +89,6 @@ namespace FinanceTracker.Api.Controllers
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 }
