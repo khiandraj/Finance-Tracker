@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "PD+SBBfZP00=",
+  "dgSpecHash": "IakjlxNPQoY=",
   "success": true,
   "projectFilePath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/FinanceTracker.Tests.csproj",
   "expectedPackageFiles": [
+    "/Users/ninalanier/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/ninalanier/.nuget/packages/coverlet.collector/6.0.2/coverlet.collector.6.0.2.nupkg.sha512",
     "/Users/ninalanier/.nuget/packages/fluentassertions/8.7.1/fluentassertions.8.7.1.nupkg.sha512",
     "/Users/ninalanier/.nuget/packages/microsoft.aspnetcore.mvc.testing/9.0.9/microsoft.aspnetcore.mvc.testing.9.0.9.nupkg.sha512",
