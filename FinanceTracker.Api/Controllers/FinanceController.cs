@@ -22,9 +22,11 @@ namespace FinanceTracker.Api.Controllers
                 return Conflict("Username already exists.");
 
             user.Id = _users.Count > 0 ? _users.Max(u => u.Id) + 1 : 1;
+
+            user.Password = PasswordHelper.HashPassword(user.Password);
             _users.Add(user);
 
-            return Ok(user);
+            return Ok(new { user.Id, user.Username });
         }
 
         [HttpGet("users")]
