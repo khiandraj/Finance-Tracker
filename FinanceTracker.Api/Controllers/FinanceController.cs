@@ -46,7 +46,9 @@ namespace FinanceTracker.Api.Controllers
             if (user == null)
                 return NotFound("User not found.");
 
-            if (user.Password != loginRequest.Password)
+            bool isValid = PasswordHelper.VerifyPassword(loginRequest.Password, user.Password);
+
+            if (!isValid)
                 return Unauthorized("Invalid password.");
 
             return Ok($"Welcome back, {user.Username}!");
