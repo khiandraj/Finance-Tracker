@@ -8,11 +8,11 @@ namespace FinanceTracker.Api.Controllers
     [Route("api/[controller]")]
     public class FinanceController : ControllerBase
     {
-       
+
         private static List<User> _users = new();
         [HttpGet]
-        
-        
+
+
         [HttpPost("adduser")]
         public ActionResult<User> AddUser([FromBody] User user)
         {
@@ -22,9 +22,11 @@ namespace FinanceTracker.Api.Controllers
                 return Conflict("Username already exists.");
 
             user.Id = _users.Count > 0 ? _users.Max(u => u.Id) + 1 : 1;
+
+            user.Password = PasswordHelper.HashPassword(user.Password);
             _users.Add(user);
 
-            return Ok(user);
+            return Ok(new { user.Id, user.Username });
         }
 
         [HttpGet("users")]
@@ -36,7 +38,7 @@ namespace FinanceTracker.Api.Controllers
         [HttpPost("login")]
         public ActionResult<string> Login([FromBody] User loginRequest)
         {
-             if (string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
+            if (string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
                 return BadRequest("Username and password are required.");
 
             var user = _users.FirstOrDefault(u => u.Username == loginRequest.Username);
@@ -44,19 +46,34 @@ namespace FinanceTracker.Api.Controllers
             if (user == null)
                 return NotFound("User not found.");
 
-            if (user.Password != loginRequest.Password)
+            bool isValid = PasswordHelper.VerifyPassword(loginRequest.Password, user.Password);
+
+            if (!isValid)
                 return Unauthorized("Invalid password.");
 
             return Ok($"Welcome back, {user.Username}!");
         }
     }
 
-   
+
 
     public class User
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+    }
+
+    public static class PasswordHelper
+    {
+        public static string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+        public static bool VerifyPassword(string password, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+        }
     }
 }
