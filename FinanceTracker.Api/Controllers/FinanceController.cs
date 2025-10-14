@@ -17,7 +17,6 @@ namespace FinanceTracker.Api.Controllers
         /// In-memory storage for all registered users.
         /// </summary>
         private static List<User> _users = new();
-        [HttpGet]
 
         /// <summary>
         /// Adds a new user to the system.
@@ -40,7 +39,6 @@ namespace FinanceTracker.Api.Controllers
         /// }
         /// </code>
         /// </example>
-        
         [HttpPost("adduser")]
         public ActionResult<User> AddUser([FromBody] User user)
         {
