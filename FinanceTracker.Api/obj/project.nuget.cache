@@ -1,16 +1,27 @@
 {
   "version": 2,
-  "dgSpecHash": "eb+oGRadH1s=",
+  "dgSpecHash": "6tKOpmGiZao=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sidkj\\Source\\Repos\\Finance-Tracker\\FinanceTracker.Api\\FinanceTracker.Api.csproj",
+  "projectFilePath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/FinanceTracker.Api.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\sidkj\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.8\\microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
-    "C:\\Users\\sidkj\\.nuget\\packages\\microsoft.extensions.apidescription.server\\9.0.0\\microsoft.extensions.apidescription.server.9.0.0.nupkg.sha512",
-    "C:\\Users\\sidkj\\.nuget\\packages\\microsoft.openapi\\1.6.25\\microsoft.openapi.1.6.25.nupkg.sha512",
-    "C:\\Users\\sidkj\\.nuget\\packages\\swashbuckle.aspnetcore\\9.0.6\\swashbuckle.aspnetcore.9.0.6.nupkg.sha512",
-    "C:\\Users\\sidkj\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\9.0.6\\swashbuckle.aspnetcore.swagger.9.0.6.nupkg.sha512",
-    "C:\\Users\\sidkj\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\9.0.6\\swashbuckle.aspnetcore.swaggergen.9.0.6.nupkg.sha512",
-    "C:\\Users\\sidkj\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\9.0.6\\swashbuckle.aspnetcore.swaggerui.9.0.6.nupkg.sha512"
+    "/Users/ninalanier/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/microsoft.aspnetcore.openapi/9.0.8/microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/microsoft.extensions.apidescription.server/9.0.0/microsoft.extensions.apidescription.server.9.0.0.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/microsoft.openapi/1.6.25/microsoft.openapi.1.6.25.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/swashbuckle.aspnetcore/9.0.6/swashbuckle.aspnetcore.9.0.6.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/swashbuckle.aspnetcore.swagger/9.0.6/swashbuckle.aspnetcore.swagger.9.0.6.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/swashbuckle.aspnetcore.swaggergen/9.0.6/swashbuckle.aspnetcore.swaggergen.9.0.6.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/swashbuckle.aspnetcore.swaggerui/9.0.6/swashbuckle.aspnetcore.swaggerui.9.0.6.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problem reading the cache file /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/obj/project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "projectPath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/FinanceTracker.Api.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/FinanceTracker.Api.csproj",
+      "targetGraphs": []
+    }
+  ]
 }
