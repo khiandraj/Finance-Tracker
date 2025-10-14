@@ -62,11 +62,25 @@ namespace FinanceTracker.Api.Controllers
         /// ]
         /// </code>
         /// </example>
-        
+
         [HttpGet("users")]
-        public ActionResult<IEnumerable<User>> GetUsers()
+        public ActionResult<IEnumerable<User>> GetUsers([FromQuery] string role = "User")
         {
-            return Ok(_users);
+            List<User> users;
+            switch (role)
+            {
+                case "Global":
+                    users = _usersCollection.Find(_ => true).ToList();
+                    break;
+                case "Developer":
+                    users = _usersCollection.Find(u => u.Rold != "Global").ToList();
+                    break;
+                case "User":
+                default:
+                    users = _usersCollection.Find(u => u.Role == "User").ToList();
+                    break;
+            }
+            return Ok(users.Select(u => new { u.Username, u.Role }));
         }
 
         /// <summary>
@@ -123,7 +137,7 @@ namespace FinanceTracker.Api.Controllers
         /// <summary>
         /// Unique identifier for the user.
         /// </summary>
-        public  ObjectId Id { get; set; }
+        public ObjectId Id { get; set; }
 
         /// <summary>
         /// Username used to log in.
@@ -134,6 +148,7 @@ namespace FinanceTracker.Api.Controllers
         /// User's password (should be hashed and secured in production).
         /// </summary>
         public string Password { get; set; } = string.Empty;
+        public string Role { get; set; } = "User";
     }
 
     public static class PasswordHelper
