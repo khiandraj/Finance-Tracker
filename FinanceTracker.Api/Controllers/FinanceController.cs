@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace FinanceTracker.Api.Controllers
 {
      /// <summary>
@@ -139,4 +140,6 @@ namespace FinanceTracker.Api.Controllers
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
     }
+
+
 }
