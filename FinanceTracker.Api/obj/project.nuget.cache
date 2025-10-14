@@ -13,5 +13,15 @@
     "/Users/ninalanier/.nuget/packages/swashbuckle.aspnetcore.swaggergen/9.0.6/swashbuckle.aspnetcore.swaggergen.9.0.6.nupkg.sha512",
     "/Users/ninalanier/.nuget/packages/swashbuckle.aspnetcore.swaggerui/9.0.6/swashbuckle.aspnetcore.swaggerui.9.0.6.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problem reading the cache file /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/obj/project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "projectPath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/FinanceTracker.Api.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/FinanceTracker.Api.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

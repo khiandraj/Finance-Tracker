@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "IakjlxNPQoY=",
+  "dgSpecHash": "oEipdzqiYhY=",
   "success": true,
   "projectFilePath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/FinanceTracker.Tests.csproj",
   "expectedPackageFiles": [
@@ -51,14 +51,24 @@
     "/Users/ninalanier/.nuget/packages/swashbuckle.aspnetcore.swaggerui/9.0.6/swashbuckle.aspnetcore.swaggerui.9.0.6.nupkg.sha512",
     "/Users/ninalanier/.nuget/packages/system.diagnostics.eventlog/9.0.9/system.diagnostics.eventlog.9.0.9.nupkg.sha512",
     "/Users/ninalanier/.nuget/packages/system.reflection.metadata/1.6.0/system.reflection.metadata.1.6.0.nupkg.sha512",
-    "/Users/ninalanier/.nuget/packages/xunit/2.9.2/xunit.2.9.2.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/xunit/2.9.3/xunit.2.9.3.nupkg.sha512",
     "/Users/ninalanier/.nuget/packages/xunit.abstractions/2.0.3/xunit.abstractions.2.0.3.nupkg.sha512",
-    "/Users/ninalanier/.nuget/packages/xunit.analyzers/1.16.0/xunit.analyzers.1.16.0.nupkg.sha512",
-    "/Users/ninalanier/.nuget/packages/xunit.assert/2.9.2/xunit.assert.2.9.2.nupkg.sha512",
-    "/Users/ninalanier/.nuget/packages/xunit.core/2.9.2/xunit.core.2.9.2.nupkg.sha512",
-    "/Users/ninalanier/.nuget/packages/xunit.extensibility.core/2.9.2/xunit.extensibility.core.2.9.2.nupkg.sha512",
-    "/Users/ninalanier/.nuget/packages/xunit.extensibility.execution/2.9.2/xunit.extensibility.execution.2.9.2.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/xunit.analyzers/1.18.0/xunit.analyzers.1.18.0.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/xunit.assert/2.9.3/xunit.assert.2.9.3.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/xunit.core/2.9.3/xunit.core.2.9.3.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/xunit.extensibility.core/2.9.3/xunit.extensibility.core.2.9.3.nupkg.sha512",
+    "/Users/ninalanier/.nuget/packages/xunit.extensibility.execution/2.9.3/xunit.extensibility.execution.2.9.3.nupkg.sha512",
     "/Users/ninalanier/.nuget/packages/xunit.runner.visualstudio/2.8.2/xunit.runner.visualstudio.2.8.2.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problem reading the cache file /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/obj/project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "projectPath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/FinanceTracker.Tests.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/FinanceTracker.Tests.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

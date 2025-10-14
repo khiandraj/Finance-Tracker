@@ -3105,32 +3105,39 @@
     ]
   },
   "packageFolders": {
-    "/Users/ninalanier/.nuget/packages/": {}
+    "C:\\Users\\sidkj\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/FinanceTracker.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\sidkj\\Source\\Repos\\Finance-Tracker\\FinanceTracker.Tests\\FinanceTracker.Tests.csproj",
       "projectName": "FinanceTracker.Tests",
-      "projectPath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/FinanceTracker.Tests.csproj",
-      "packagesPath": "/Users/ninalanier/.nuget/packages/",
-      "outputPath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/obj/",
+      "projectPath": "C:\\Users\\sidkj\\Source\\Repos\\Finance-Tracker\\FinanceTracker.Tests\\FinanceTracker.Tests.csproj",
+      "packagesPath": "C:\\Users\\sidkj\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sidkj\\Source\\Repos\\Finance-Tracker\\FinanceTracker.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/ninalanier/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\sidkj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/FinanceTracker.Api.csproj": {
-              "projectPath": "/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/FinanceTracker.Api.csproj"
+            "C:\\Users\\sidkj\\Source\\Repos\\Finance-Tracker\\FinanceTracker.Api\\FinanceTracker.Api.csproj": {
+              "projectPath": "C:\\Users\\sidkj\\Source\\Repos\\Finance-Tracker\\FinanceTracker.Api\\FinanceTracker.Api.csproj"
             }
           }
         }
@@ -3192,7 +3199,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
