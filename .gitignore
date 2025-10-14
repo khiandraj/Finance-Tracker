@@ -1,0 +1,15 @@
+# Visual Studio and Build Folders
+# -------------------------------------------------------------------
+[Bb]in/        # Ignore compiled binaries
+[Oo]bj/        # Ignore object files (where your conflicts were coming from)
+
+# User-specific files
+# -------------------------------------------------------------------
+*.user         # Ignore user-specific IDE settings
+*.suo          # Ignore solution user options file
+*.sln.docstates
+
+# NuGet packages and caches
+# -------------------------------------------------------------------
+*.nupkg        # Ignore built NuGet packages
+.nuget/        # Ignore .nuget folder
