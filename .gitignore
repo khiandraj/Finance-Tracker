@@ -1,0 +1,15 @@
+# Visual Studio and Build Folders
+# -------------------------------------------------------------------
+[Bb]in/        # Compiled binaries
+[Oo]bj/        # Object files/intermediate build files
+
+# User-specific files
+# -------------------------------------------------------------------
+*.user         # User-specific IDE settings
+*.suo          # Solution user options file
+*.sln.docstates
+
+# NuGet packages and caches
+# -------------------------------------------------------------------
+*.nupkg        # Built NuGet packages
+.nuget/        # NuGet cache folder
