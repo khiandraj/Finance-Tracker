@@ -20,8 +20,14 @@ namespace FinanceTracker.Api.Controllers
         /// <summary>
         /// In-memory storage for all registered users.
         /// </summary>
-        private static List<User> _users = new();
-        [HttpGet]
+        private readonly IMongoCollection<User> _usersCollection;
+
+        public FinanceController()
+        {
+            var client = new MongoClient("mongodb://localhost:27017/?ssl=true");
+            var database = client.GetDatabase("FinanceTrackerDB");
+            _usersCollection = database.GetCollection<User>("Users");
+        }
 
 
         [HttpPost("adduser")]
@@ -117,7 +123,7 @@ namespace FinanceTracker.Api.Controllers
         /// <summary>
         /// Unique identifier for the user.
         /// </summary>
-        public int Id { get; set; }
+        public  ObjectId Id { get; set; }
 
         /// <summary>
         /// Username used to log in.
