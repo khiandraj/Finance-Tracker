@@ -38,13 +38,13 @@ namespace FinanceTracker.Api.Controllers
         {
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
                 return BadRequest("Username and password are required.");
-            if (_users.Any(u => u.Username == user.Username))
+            var existing = _userCollection.Find(u => u.Username == user.Username).FirstOrDefault();
+            if (existing != null)
                 return Conflict("Username already exists.");
 
-            user.Id = _users.Count > 0 ? _users.Max(u => u.Id) + 1 : 1;
-
             user.Password = PasswordHelper.HashPassword(user.Password);
-            _users.Add(user);
+            user.EncryptedLastLoggedOn = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"));
+            _userCollection.InsertOne(user);
 
             return Ok(new { user.Id, user.Username });
         }
@@ -69,7 +69,14 @@ namespace FinanceTracker.Api.Controllers
         [HttpGet("users")]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
-            return Ok(_users);
+            var users = _userCollection.Find(_ => true).ToList();
+            var safeUsers = users.Select(u => new
+            {
+                u.Username,
+                LastLoggedOn = EncryptionHelper.Decrypt(u.EncryptedLastLoggedOn)
+            });
+
+            return Ok(safeUsers);
         }
 
         /// <summary>
