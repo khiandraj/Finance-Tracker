@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Driver;
+using MongoDB.Bson;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace FinanceTracker.Api.Controllers
@@ -18,8 +22,15 @@ namespace FinanceTracker.Api.Controllers
         /// <summary>
         /// In-memory storage for all registered users.
         /// </summary>
-        private static List<User> _users = new();
-        [HttpGet]
+        private readonly IMongoCollection<User> _userCollection;
+
+        public FinanceController()
+        {
+            
+            var client = new MongoClient("mongodb://localhost:27017");
+            var database = client.GetDatabase("FinanceTrackerDB");
+            _userCollection = database.GetCollection<User>("Users");
+        }
 
 
         [HttpPost("adduser")]
