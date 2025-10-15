@@ -99,24 +99,29 @@ namespace FinanceTracker.Api.Controllers
         /// </code>
         /// </example>
 
+        
         [HttpPost("login")]
         public ActionResult<string> Login([FromBody] User loginRequest)
-        {
+            {
             if (string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
                 return BadRequest("Username and password are required.");
 
-            var user = _users.FirstOrDefault(u => u.Username == loginRequest.Username);
-
+            var user = _userCollection.Find(u => u.Username == loginRequest.Username).FirstOrDefault();
             if (user == null)
                 return NotFound("User not found.");
 
             bool isValid = PasswordHelper.VerifyPassword(loginRequest.Password, user.Password);
-
             if (!isValid)
                 return Unauthorized("Invalid password.");
 
-            return Ok($"Welcome back, {user.Username}!");
+            
+            string encryptedTime = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"));
+            var update = Builders<User>.Update.Set(u => u.EncryptedLastLoggedOn, encryptedTime);
+            _userCollection.UpdateOne(u => u.Id == user.Id, update);
+
+            return Ok($"Welcome back, {user.Username}! Last login updated securely.");
         }
+
     }
 
 
