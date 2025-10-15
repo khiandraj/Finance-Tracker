@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FinanceTracker.Api.Controllers
 {
-     /// <summary>
+    /// <summary>
     /// Controller responsible for managing user registration, authentication,
     /// and retrieval of registered users in the Finance Tracker API.
     /// </summary>
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class FinanceController : ControllerBase
@@ -26,7 +26,7 @@ namespace FinanceTracker.Api.Controllers
 
         public FinanceController()
         {
-            
+
             var client = new MongoClient("mongodb://localhost:27017");
             var database = client.GetDatabase("FinanceTrackerDB");
             _userCollection = database.GetCollection<User>("Users");
@@ -65,7 +65,7 @@ namespace FinanceTracker.Api.Controllers
         /// ]
         /// </code>
         /// </example>
-        
+
         [HttpGet("users")]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
@@ -98,7 +98,7 @@ namespace FinanceTracker.Api.Controllers
         /// "Welcome back, alex123!"
         /// </code>
         /// </example>
-        
+
         [HttpPost("login")]
         public ActionResult<string> Login([FromBody] User loginRequest)
         {
@@ -126,7 +126,7 @@ namespace FinanceTracker.Api.Controllers
         /// <summary>
         /// Unique identifier for the user.
         /// </summary>
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
 
         /// <summary>
         /// Username used to log in.
@@ -137,6 +137,7 @@ namespace FinanceTracker.Api.Controllers
         /// User's password (should be hashed and secured in production).
         /// </summary>
         public string Password { get; set; } = string.Empty;
+        public string EncryptedLastLoggedOn { get; set; } = string.Empty;
     }
 
     public static class PasswordHelper
@@ -152,5 +153,41 @@ namespace FinanceTracker.Api.Controllers
         }
     }
 
+    public static class EncryptionHelper
+    {
+        private static readonly byte[] Key = Encoding.UTF8.GetBytes("12345678901234567890123456789012");
+        private static readonly byte[] IV = Encoding.UTF8.GetBytes("1234567890123456");
+
+        public static string Encrypt(string plainText)
+        {
+            using Aes aes = Aes.Create();
+            aes.Key = Key;
+            aes.IV = IV;
+            var encryptor = aes.CreateEncryptor(aes.Key, aes, IV);
+            var bytes = Encoding.UTF8.GetBytes(plainText);
+
+            using var ms = new MemoryStream();
+            using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+            {
+                cs.Write(bytes, 0, bytes.Length);
+                cs.FlushFinalBlock();
+            }
+            return Convert.ToBase64String(ms.ToArray());
+        }
+
+        public static string Decrypt(string cipherText)
+        {
+            using Aes aes = Aes.Create();
+            aes.Key = Key;
+            aes.IV = IV;
+            var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+            var buffer = Convert.FromBase64String(cipherText);
+
+            using var ms = new MemoryStream(buffer);
+            using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
+            using var reader = new StreamReader(cs);
+            return reader.ReadToEnd();
+        }
+    }
 
 }
