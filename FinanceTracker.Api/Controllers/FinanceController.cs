@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 
 namespace FinanceTracker.Api.Controllers
@@ -18,8 +20,14 @@ namespace FinanceTracker.Api.Controllers
         /// <summary>
         /// In-memory storage for all registered users.
         /// </summary>
-        private static List<User> _users = new();
-        [HttpGet]
+        private readonly IMongoCollection<User> _usersCollection;
+
+        public FinanceController()
+        {
+            var client = new MongoClient("mongodb://localhost:27017/?ssl=true");
+            var database = client.GetDatabase("FinanceTrackerDB");
+            _usersCollection = database.GetCollection<User>("Users");
+        }
 
 
         [HttpPost("adduser")]
@@ -27,15 +35,18 @@ namespace FinanceTracker.Api.Controllers
         {
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
                 return BadRequest("Username and password are required.");
-            if (_users.Any(u => u.Username == user.Username))
+
+            var existingUser = _usersCollection.Find(u => u.Username == user.Username).FirstOrDefault();
+            if (existingUser != null)
                 return Conflict("Username already exists.");
 
-            user.Id = _users.Count > 0 ? _users.Max(u => u.Id) + 1 : 1;
-
             user.Password = PasswordHelper.HashPassword(user.Password);
-            _users.Add(user);
+            if (string.IsNullOrEmpty(user.Role))
+                user.Role = "User";
 
-            return Ok(new { user.Id, user.Username });
+            _usersCollection.InsertOne(user);
+            return Ok(new { user.Id, user.Username, user.Role });
+            
         }
 
         /// <summary>
@@ -54,11 +65,25 @@ namespace FinanceTracker.Api.Controllers
         /// ]
         /// </code>
         /// </example>
-        
+
         [HttpGet("users")]
-        public ActionResult<IEnumerable<User>> GetUsers()
+        public ActionResult<IEnumerable<User>> GetUsers([FromQuery] string role = "User")
         {
-            return Ok(_users);
+            List<User> users;
+            switch (role)
+            {
+                case "Global":
+                    users = _usersCollection.Find(_ => true).ToList();
+                    break;
+                case "Developer":
+                    users = _usersCollection.Find(u => u.Role != "Global").ToList();
+                    break;
+                case "User":
+                default:
+                    users = _usersCollection.Find(u => u.Role == "User").ToList();
+                    break;
+            }
+            return Ok(users.Select(u => new { u.Username, u.Role }));
         }
 
         /// <summary>
@@ -87,24 +112,22 @@ namespace FinanceTracker.Api.Controllers
         /// "Welcome back, alex123!"
         /// </code>
         /// </example>
-        
+
         [HttpPost("login")]
         public ActionResult<string> Login([FromBody] User loginRequest)
         {
             if (string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
                 return BadRequest("Username and password are required.");
 
-            var user = _users.FirstOrDefault(u => u.Username == loginRequest.Username);
-
+            var user = _usersCollection.Find(u => u.Username == loginRequest.Username).FirstOrDefault();
             if (user == null)
                 return NotFound("User not found.");
 
             bool isValid = PasswordHelper.VerifyPassword(loginRequest.Password, user.Password);
-
             if (!isValid)
                 return Unauthorized("Invalid password.");
 
-            return Ok($"Welcome back, {user.Username}!");
+            return Ok($"Welcome back, {user.Username}! Role: {user.Role}");
         }
     }
 
@@ -115,7 +138,7 @@ namespace FinanceTracker.Api.Controllers
         /// <summary>
         /// Unique identifier for the user.
         /// </summary>
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
 
         /// <summary>
         /// Username used to log in.
@@ -126,6 +149,7 @@ namespace FinanceTracker.Api.Controllers
         /// User's password (should be hashed and secured in production).
         /// </summary>
         public string Password { get; set; } = string.Empty;
+        public string Role { get; set; } = "User";
     }
 
     public static class PasswordHelper
