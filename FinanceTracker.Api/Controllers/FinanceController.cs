@@ -46,7 +46,9 @@ namespace FinanceTracker.Api.Controllers
             user.EncryptedLastLoggedOn = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"));
             _userCollection.InsertOne(user);
 
-            return Ok(new { user.Id, user.Username });
+            _usersCollection.InsertOne(user);
+            return Ok(new { user.Id, user.Username, user.Role });
+            
         }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace FinanceTracker.Api.Controllers
         /// </example>
 
         [HttpGet("users")]
-        public ActionResult<IEnumerable<User>> GetUsers()
+        public ActionResult<IEnumerable<User>> GetUsers([FromQuery] string role = "User")
         {
             var users = _userCollection.Find(_ => true).ToList();
             var safeUsers = users.Select(u => new
