@@ -46,7 +46,7 @@ namespace FinanceTracker.Api.Controllers
             user.EncryptedLastLoggedOn = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"));
             _userCollection.InsertOne(user);
 
-            _usersCollection.InsertOne(user);
+            _userCollection.InsertOne(user);
             return Ok(new { user.Id, user.Username, user.Role });
             
         }
@@ -152,6 +152,7 @@ namespace FinanceTracker.Api.Controllers
         /// </summary>
         public string Password { get; set; } = string.Empty;
         public string EncryptedLastLoggedOn { get; set; } = string.Empty;
+        public object? Role { get; internal set; }
     }
 
     public static class PasswordHelper
@@ -177,7 +178,7 @@ namespace FinanceTracker.Api.Controllers
             using Aes aes = Aes.Create();
             aes.Key = Key;
             aes.IV = IV;
-            var encryptor = aes.CreateEncryptor(aes.Key, aes, IV);
+            var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
             var bytes = Encoding.UTF8.GetBytes(plainText);
 
             using var ms = new MemoryStream();
