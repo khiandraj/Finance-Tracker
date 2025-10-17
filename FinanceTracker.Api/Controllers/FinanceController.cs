@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace FinanceTracker.Api.Controllers
 {
-     /// <summary>
+    /// <summary>
     /// Controller responsible for managing user registration, authentication,
     /// and retrieval of registered users in the Finance Tracker API.
     /// </summary>
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class FinanceController : ControllerBase
@@ -20,13 +22,14 @@ namespace FinanceTracker.Api.Controllers
         /// <summary>
         /// In-memory storage for all registered users.
         /// </summary>
-        private readonly IMongoCollection<User> _usersCollection;
+        private readonly IMongoCollection<User> _userCollection;
 
         public FinanceController()
         {
-            var client = new MongoClient("mongodb://localhost:27017/?ssl=true");
+
+            var client = new MongoClient("mongodb://localhost:27017");
             var database = client.GetDatabase("FinanceTrackerDB");
-            _usersCollection = database.GetCollection<User>("Users");
+            _userCollection = database.GetCollection<User>("Users");
         }
 
 
@@ -35,14 +38,13 @@ namespace FinanceTracker.Api.Controllers
         {
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
                 return BadRequest("Username and password are required.");
-
-            var existingUser = _usersCollection.Find(u => u.Username == user.Username).FirstOrDefault();
-            if (existingUser != null)
+            var existing = _userCollection.Find(u => u.Username == user.Username).FirstOrDefault();
+            if (existing != null)
                 return Conflict("Username already exists.");
 
             user.Password = PasswordHelper.HashPassword(user.Password);
-            if (string.IsNullOrEmpty(user.Role))
-                user.Role = "User";
+            user.EncryptedLastLoggedOn = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"));
+            _userCollection.InsertOne(user);
 
             _usersCollection.InsertOne(user);
             return Ok(new { user.Id, user.Username, user.Role });
@@ -69,21 +71,14 @@ namespace FinanceTracker.Api.Controllers
         [HttpGet("users")]
         public ActionResult<IEnumerable<User>> GetUsers([FromQuery] string role = "User")
         {
-            List<User> users;
-            switch (role)
+            var users = _userCollection.Find(_ => true).ToList();
+            var safeUsers = users.Select(u => new
             {
-                case "Global":
-                    users = _usersCollection.Find(_ => true).ToList();
-                    break;
-                case "Developer":
-                    users = _usersCollection.Find(u => u.Role != "Global").ToList();
-                    break;
-                case "User":
-                default:
-                    users = _usersCollection.Find(u => u.Role == "User").ToList();
-                    break;
-            }
-            return Ok(users.Select(u => new { u.Username, u.Role }));
+                u.Username,
+                LastLoggedOn = EncryptionHelper.Decrypt(u.EncryptedLastLoggedOn)
+            });
+
+            return Ok(safeUsers);
         }
 
         /// <summary>
@@ -113,13 +108,14 @@ namespace FinanceTracker.Api.Controllers
         /// </code>
         /// </example>
 
+        
         [HttpPost("login")]
         public ActionResult<string> Login([FromBody] User loginRequest)
-        {
+            {
             if (string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
                 return BadRequest("Username and password are required.");
 
-            var user = _usersCollection.Find(u => u.Username == loginRequest.Username).FirstOrDefault();
+            var user = _userCollection.Find(u => u.Username == loginRequest.Username).FirstOrDefault();
             if (user == null)
                 return NotFound("User not found.");
 
@@ -127,8 +123,14 @@ namespace FinanceTracker.Api.Controllers
             if (!isValid)
                 return Unauthorized("Invalid password.");
 
-            return Ok($"Welcome back, {user.Username}! Role: {user.Role}");
+            
+            string encryptedTime = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"));
+            var update = Builders<User>.Update.Set(u => u.EncryptedLastLoggedOn, encryptedTime);
+            _userCollection.UpdateOne(u => u.Id == user.Id, update);
+
+            return Ok($"Welcome back, {user.Username}! Last login updated securely.");
         }
+
     }
 
 
@@ -149,7 +151,7 @@ namespace FinanceTracker.Api.Controllers
         /// User's password (should be hashed and secured in production).
         /// </summary>
         public string Password { get; set; } = string.Empty;
-        public string Role { get; set; } = "User";
+        public string EncryptedLastLoggedOn { get; set; } = string.Empty;
     }
 
     public static class PasswordHelper
@@ -165,5 +167,41 @@ namespace FinanceTracker.Api.Controllers
         }
     }
 
+    public static class EncryptionHelper
+    {
+        private static readonly byte[] Key = Encoding.UTF8.GetBytes("12345678901234567890123456789012");
+        private static readonly byte[] IV = Encoding.UTF8.GetBytes("1234567890123456");
+
+        public static string Encrypt(string plainText)
+        {
+            using Aes aes = Aes.Create();
+            aes.Key = Key;
+            aes.IV = IV;
+            var encryptor = aes.CreateEncryptor(aes.Key, aes, IV);
+            var bytes = Encoding.UTF8.GetBytes(plainText);
+
+            using var ms = new MemoryStream();
+            using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+            {
+                cs.Write(bytes, 0, bytes.Length);
+                cs.FlushFinalBlock();
+            }
+            return Convert.ToBase64String(ms.ToArray());
+        }
+
+        public static string Decrypt(string cipherText)
+        {
+            using Aes aes = Aes.Create();
+            aes.Key = Key;
+            aes.IV = IV;
+            var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+            var buffer = Convert.FromBase64String(cipherText);
+
+            using var ms = new MemoryStream(buffer);
+            using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
+            using var reader = new StreamReader(cs);
+            return reader.ReadToEnd();
+        }
+    }
 
 }
