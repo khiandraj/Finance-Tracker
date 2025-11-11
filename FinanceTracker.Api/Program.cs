@@ -39,6 +39,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
+app.MapGet("/", () => "Finance Tracker API is running!");
+
 app.MapControllers(); 
 
 app.Run();
