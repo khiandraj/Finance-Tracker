@@ -1,19 +1,20 @@
-# Use the .NET 9.0 SDK image to build the app
+# Stage 1: Build the API
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /App
 
-# Copy csproj files and restore dependencies first
-COPY api/api.csproj ./api/
-RUN dotnet restore ./api/api.csproj
+# Copy only the API project file first
+COPY FinanceTracker.Api/FinanceTracker.Api.csproj ./FinanceTracker.Api/
+RUN dotnet restore ./FinanceTracker.Api/FinanceTracker.Api.csproj
 
-# Copy the rest of the source code
+# Copy everything else
 COPY . ./
 
-# Publish the app
-RUN dotnet publish ./api/api.csproj -c Release -o /App/out
+# Publish the API
+RUN dotnet publish ./FinanceTracker.Api/FinanceTracker.Api.csproj -c Release -o /App/out
 
-# Build runtime image
+# Stage 2: Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /App
 COPY --from=build /App/out .
-ENTRYPOINT ["dotnet", "api.dll"]
+ENTRYPOINT ["dotnet", "FinanceTracker.Api.dll"]
+
