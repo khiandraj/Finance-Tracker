@@ -36,8 +36,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
+app.Urls.Add("http://0.0.0.0:8080");
+
 
 app.MapGet("/", () => "Finance Tracker API is running!");
 
