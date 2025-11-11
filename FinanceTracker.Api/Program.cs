@@ -1,7 +1,14 @@
 using Microsoft.OpenApi.Models;
 using System.IO;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "FinanceTracker_";
+});
 
 
 builder.Services.AddControllers();
