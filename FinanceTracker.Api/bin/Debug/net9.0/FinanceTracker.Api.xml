@@ -4,5 +4,77 @@
         <name>FinanceTracker.Api</name>
     </assembly>
     <members>
+        <member name="T:FinanceTracker.Api.Controllers.FinanceController">
+            <summary>
+            Controller responsible for managing user registration, authentication,
+            and retrieval of registered users in the Finance Tracker API.
+            </summary>
+        </member>
+        <member name="F:FinanceTracker.Api.Controllers.FinanceController._userCollection">
+            <summary>
+            In-memory storage for all registered users.
+            </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Controllers.FinanceController.GetUsers(System.String)">
+            <summary>
+            Retrieves a list of all registered users.
+            </summary>
+            <returns>
+            A collection of <see cref="T:FinanceTracker.Api.Controllers.User"/> objects currently stored in memory.
+            </returns>
+            <example>
+            GET: api/finance/users  
+            Response:
+            <code>
+            [
+              { "id": 1, "username": "alex123", "password": "******" },
+              { "id": 2, "username": "jane_doe", "password": "******" }
+            ]
+            </code>
+            </example>
+        </member>
+        <member name="M:FinanceTracker.Api.Controllers.FinanceController.Login(FinanceTracker.Api.Controllers.User)">
+            <summary>
+            Authenticates a user based on username and password.
+            </summary>
+            <param name="loginRequest">An object containing the username and password to verify.</param>
+            <returns>
+            A welcome message if login is successful.
+            Returns:
+            - 400 Bad Request if username or password is missing.
+            - 404 Not Found if the username does not exist.
+            - 401 Unauthorized if the password is incorrect.
+            - 200 OK with a success message if credentials are valid.
+            </returns>
+            <example>
+            POST: api/finance/login  
+            Request Body:
+            <code>
+            {
+              "username": "alex123",
+              "password": "SecurePass123"
+            }
+            </code>
+            Response:
+            <code>
+            "Welcome back, alex123!"
+            </code>
+            </example>
+        </member>
+        <member name="P:FinanceTracker.Api.Controllers.User.Id">
+            <summary>
+            Unique identifier for the user.
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Controllers.User.Username">
+            <summary>
+            Username used to log in.
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Controllers.User.Password">
+            <summary>
+            User's password (should be hashed and secured in production).
+            </summary>
+        </member>
     </members>
 </doc>
