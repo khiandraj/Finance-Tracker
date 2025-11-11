@@ -44,7 +44,7 @@ namespace FinanceTracker.Api.Controllers
 
             user.Password = PasswordHelper.HashPassword(user.Password);
             user.EncryptedLastLoggedOn = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"));
-            _userCollection.InsertOne(user);
+            
 
             _userCollection.InsertOne(user);
             return Ok(new { user.Id, user.Username, user.Role });
