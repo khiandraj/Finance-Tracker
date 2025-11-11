@@ -102,7 +102,6 @@
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/Microsoft.AspNetCore.WebSockets.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/Microsoft.AspNetCore.WebUtilities.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/Microsoft.CSharp.dll
-/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/Microsoft.Extensions.Caching.Abstractions.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/Microsoft.Extensions.Caching.Memory.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/Microsoft.Extensions.Configuration.Ini.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/Microsoft.Extensions.Configuration.KeyPerFile.dll
@@ -150,7 +149,6 @@
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/System.Data.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/System.Diagnostics.Contracts.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/System.Diagnostics.Debug.dll
-/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/System.Diagnostics.DiagnosticSource.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/System.Diagnostics.FileVersionInfo.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/System.Diagnostics.Process.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/refs/System.Diagnostics.StackTrace.dll
@@ -436,3 +434,8 @@
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/runtimes/osx/native/libmongocrypt.dylib
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/runtimes/win/native/mongocrypt.dll
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/FinanceTracker.Api.xml
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/Microsoft.Extensions.Caching.Abstractions.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/Microsoft.Extensions.Caching.StackExchangeRedis.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/Pipelines.Sockets.Unofficial.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/StackExchange.Redis.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Tests/bin/Debug/net9.0/System.Diagnostics.DiagnosticSource.dll

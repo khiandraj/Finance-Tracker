@@ -50,3 +50,12 @@
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/runtimes/linux/native/libmongocrypt.so
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/runtimes/osx/native/libmongocrypt.dylib
 /Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/runtimes/win/native/mongocrypt.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Microsoft.Extensions.Caching.Abstractions.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Microsoft.Extensions.Caching.StackExchangeRedis.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Microsoft.Extensions.Options.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/Pipelines.Sockets.Unofficial.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/StackExchange.Redis.dll
+/Users/ninalanier/Desktop/GitHub/Finance-Tracker/FinanceTracker.Api/bin/Debug/net9.0/System.Diagnostics.DiagnosticSource.dll
