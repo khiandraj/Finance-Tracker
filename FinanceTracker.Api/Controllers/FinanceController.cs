@@ -24,12 +24,8 @@ namespace FinanceTracker.Api.Controllers
         /// </summary>
         private readonly IMongoCollection<User> _userCollection;
 
-        public FinanceController()
+        public FinanceController(IMongoClient client)
         {
-
-            var connectionString = Environment.GetEnvironmentVariable("MONGOCONNECTION") ?? "mongodb://mongo:27017";
-            var client = new MongoClient(connectionString);
-
             var database = client.GetDatabase("FinanceTrackerDB");
             _userCollection = database.GetCollection<User>("Users");
         }

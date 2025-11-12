@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using System.IO;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,10 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
+
+var mongoConnection = Environment.GetEnvironmentVariable("MONGOCONNECTION") ?? builder.Configuration.GetConnectionString("MongoConnection");
+
+builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoConnection));
 
 var app = builder.Build();
 
