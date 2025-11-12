@@ -27,7 +27,9 @@ namespace FinanceTracker.Api.Controllers
         public FinanceController()
         {
 
-            var client = new MongoClient("mongodb://localhost:27017");
+            var connectionString = Environment.GetEnvironmentVariable("MONGOCONNECTION") ?? "mongodb://mongo:27017";
+            var client = new MongoClient(connectionString);
+
             var database = client.GetDatabase("FinanceTrackerDB");
             _userCollection = database.GetCollection<User>("Users");
         }
