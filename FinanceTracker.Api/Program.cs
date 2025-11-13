@@ -2,17 +2,27 @@ using Microsoft.OpenApi.Models;
 using System.IO;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using MongoDB.Driver;
+using FinanceTracker.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ----------------------------
+// Redis Cache
+// ----------------------------
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "FinanceTracker_";
 });
 
-
+// ----------------------------
+// Controllers
+// ----------------------------
 builder.Services.AddControllers();
+
+// ----------------------------
+// Swagger / OpenAPI
+// ----------------------------
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -20,13 +30,24 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-var mongoConnection = Environment.GetEnvironmentVariable("MONGOCONNECTION") ?? builder.Configuration.GetConnectionString("MongoConnection");
+// ----------------------------
+// MongoDB Client
+// ----------------------------
+var mongoConnection = Environment.GetEnvironmentVariable("MONGOCONNECTION") 
+    ?? builder.Configuration.GetConnectionString("MongoConnection");
 
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoConnection));
 
+// ----------------------------
+// Register UserService Layer
+// ----------------------------
+builder.Services.AddScoped<UserService>();
+
 var app = builder.Build();
 
-
+// ----------------------------
+// Swagger UI Setup
+// ----------------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(c =>
@@ -41,13 +62,15 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-//app.UseHttpsRedirection();
+// ----------------------------
+// Middleware + Routing
+// ----------------------------
 app.UseAuthorization();
-app.Urls.Add("http://0.0.0.0:8080");
 
+app.Urls.Add("http://0.0.0.0:8080");
 
 app.MapGet("/", () => "Finance Tracker API is running!");
 
-app.MapControllers(); 
+app.MapControllers();
 
 app.Run();
