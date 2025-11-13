@@ -34,6 +34,7 @@ namespace FinanceTracker.Api.Controllers
         [HttpPost("adduser")]
         public ActionResult<User> AddUser([FromBody] User user)
         {
+            // validation and function call
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
                 return BadRequest("Username and password are required.");
             var existing = _userCollection.Find(u => u.Username == user.Username).FirstOrDefault();
@@ -42,11 +43,16 @@ namespace FinanceTracker.Api.Controllers
 
             user.Password = PasswordHelper.HashPassword(user.Password);
             user.EncryptedLastLoggedOn = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"));
-            
+
 
             _userCollection.InsertOne(user);
             return Ok(new { user.Id, user.Username, user.Role });
-            
+
+        }
+        
+        public void jnkn()
+        {
+            // the function, business logic
         }
 
         /// <summary>
