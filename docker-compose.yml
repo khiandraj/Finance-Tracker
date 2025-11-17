@@ -1,14 +1,38 @@
 services:
   app:
-    image: financedock:latest
     build:
       context: .
+      dockerfile: Dockerfile
+    image: financedock:latest
     ports:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-  
+      - MONGOCONNECTION=mongodb://mongo:27017/FinanceTrackerDB
+
+
+    depends_on:
+      - redis
+      - mongo
+
   redis:
     image: redis:6
     ports:
       - "6379:6379"
+
+  mongo:
+    image: mongo:7
+    restart: always
+    ports:
+      - "27017:27017"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - app
+
+
