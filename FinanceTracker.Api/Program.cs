@@ -3,6 +3,9 @@ using System.IO;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using MongoDB.Driver;
 using FinanceTracker.Api.Services;
+using FinanceTracker.Api.Interfaces;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +46,18 @@ builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoConnection));
 // ----------------------------
 builder.Services.AddScoped<UserService>();
 
+// Subscription Service
+builder.Services.AddScoped<SubscriptionService>();
+
+
+// Transaction Service (interface required by SubscriptionService)
+
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+
+// Balance Service
+builder.Services.AddScoped<BalanceService>();
+
+
 var app = builder.Build();
 
 // ----------------------------
@@ -74,3 +89,5 @@ app.MapGet("/", () => "Finance Tracker API is running!");
 app.MapControllers();
 
 app.Run();
+
+
