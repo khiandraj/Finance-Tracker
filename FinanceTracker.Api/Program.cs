@@ -47,6 +47,7 @@ builder.Services.AddScoped<UserService>();
 // Subscription Service
 builder.Services.AddScoped<SubscriptionService>();
 
+
 // Transaction Service (interface required by SubscriptionService)
 // TODO: Replace `FakeTransactionService` with  real implementation. this is placeholder.
 builder.Services.AddScoped<ITransactionService, FakeTransactionService>();
