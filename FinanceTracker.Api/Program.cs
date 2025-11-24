@@ -51,8 +51,8 @@ builder.Services.AddScoped<SubscriptionService>();
 
 
 // Transaction Service (interface required by SubscriptionService)
-// TODO: Replace `FakeTransactionService` with  real implementation. this is placeholder.
-builder.Services.AddScoped<ITransactionService, FakeTransactionService>();
+
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 // Balance Service
 builder.Services.AddScoped<BalanceService>();
@@ -91,20 +91,3 @@ app.MapControllers();
 app.Run();
 
 
-// ------------------------------------------------------------------
-// TEMPORARY SERVICE: Replace once real TransactionService is created
-// ------------------------------------------------------------------
-public class FakeTransactionService : ITransactionService
-{
-    public Task<bool> RecordTransactionAsync(
-        MongoDB.Bson.ObjectId userId,
-        decimal amount,
-        string currency,
-        DateTime whenUtc,
-        string description)
-    {
-        // Log to console so you know this is being triggered
-        Console.WriteLine($"[FAKE TXN] User {userId} - {amount} {currency} @ {whenUtc} | {description}");
-        return Task.FromResult(true);
-    }
-}
