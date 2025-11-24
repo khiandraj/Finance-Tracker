@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using MongoDB.Driver;
 using FinanceTracker.Api.Services;
+using FinanceTracker.Api.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,13 @@ builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoConnection));
 // Register UserService Layer
 // ----------------------------
 builder.Services.AddScoped<UserService>();
+
+// Subscription Service
+builder.Services.AddScoped<SubscriptionService>();
+
+// Transaction Service (interface required by SubscriptionService)
+// TODO: Replace `FakeTransactionService` with  real implementation. this is placeholder.
+//builder.Services.AddScoped<ITransactionService, FakeTransactionService>();
 
 var app = builder.Build();
 
