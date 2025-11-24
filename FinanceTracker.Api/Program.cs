@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using MongoDB.Driver;
 using FinanceTracker.Api.Services;
+using FinanceTracker.Api.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,13 @@ builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoConnection));
 // ----------------------------
 builder.Services.AddScoped<UserService>();
 
+// Subscription Service
+builder.Services.AddScoped<SubscriptionService>();
+
+// Transaction Service (interface required by SubscriptionService)
+// TODO: Replace `FakeTransactionService` with  real implementation. this is placeholder.
+builder.Services.AddScoped<ITransactionService, FakeTransactionService>();
+
 var app = builder.Build();
 
 // ----------------------------
@@ -74,3 +82,22 @@ app.MapGet("/", () => "Finance Tracker API is running!");
 app.MapControllers();
 
 app.Run();
+
+
+// ------------------------------------------------------------------
+// TEMPORARY SERVICE: Replace once real TransactionService is created
+// ------------------------------------------------------------------
+public class FakeTransactionService : ITransactionService
+{
+    public Task<bool> RecordTransactionAsync(
+        MongoDB.Bson.ObjectId userId,
+        decimal amount,
+        string currency,
+        DateTime whenUtc,
+        string description)
+    {
+        // Log to console so you know this is being triggered
+        Console.WriteLine($"[FAKE TXN] User {userId} - {amount} {currency} @ {whenUtc} | {description}");
+        return Task.FromResult(true);
+    }
+}
