@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using FinanceTracker.Api.BalanceManagement.Services;
+using FinanceTracker.Api.Services;
 using FinanceTracker.Api.Models;
 
 namespace FinanceTracker.Api.Controllers
