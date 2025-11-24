@@ -2,7 +2,7 @@ using MongoDB.Driver;
 using FinanceTracker.Api.Models;
 using FinanceTracker.Api.Helpers;
 
-namespace FinanceTracker.Api.BalanceManagement.Services
+namespace FinanceTracker.Api.Services
 {
     public class BalanceService
     {

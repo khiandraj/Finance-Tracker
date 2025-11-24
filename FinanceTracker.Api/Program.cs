@@ -4,7 +4,7 @@ using Microsoft.Extensions.Caching.StackExchangeRedis;
 using MongoDB.Driver;
 using FinanceTracker.Api.Services;
 using FinanceTracker.Api.Interfaces;
-using FinanceTracker.Api.BalanceManagement.Services;
+
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,4 +1,4 @@
-namespace FinanceTracker.Api.BalanceManagement.Helpers
+namespace FinanceTracker.Api.Helpers
 {
     public static class BalanceHelper
     {
