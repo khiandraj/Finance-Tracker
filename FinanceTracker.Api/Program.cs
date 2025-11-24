@@ -4,6 +4,8 @@ using Microsoft.Extensions.Caching.StackExchangeRedis;
 using MongoDB.Driver;
 using FinanceTracker.Api.Services;
 using FinanceTracker.Api.Interfaces;
+using FinanceTracker.Api.BalanceManagement.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +53,10 @@ builder.Services.AddScoped<SubscriptionService>();
 // Transaction Service (interface required by SubscriptionService)
 // TODO: Replace `FakeTransactionService` with  real implementation. this is placeholder.
 builder.Services.AddScoped<ITransactionService, FakeTransactionService>();
+
+// Balance Service
+builder.Services.AddScoped<BalanceService>();
+
 
 var app = builder.Build();
 
