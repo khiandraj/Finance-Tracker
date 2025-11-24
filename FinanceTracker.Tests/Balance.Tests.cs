@@ -1,4 +1,4 @@
 using Xunit;
-using FinanceTracker.Api.BalanceManagement.Helpers;
+using FinanceTracker.Api.Helpers;
 using MongoDB.Driver;
-using FinanceTracker.Api.BalanceManagement.Services;
+using FinanceTracker.Api.Services;

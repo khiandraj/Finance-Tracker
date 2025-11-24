@@ -4,6 +4,32 @@
         <name>FinanceTracker.Api</name>
     </assembly>
     <members>
+        <member name="T:FinanceTracker.Api.Controllers.SubscriptionController">
+            <summary>
+            Controller for managing recurring subscriptions.
+            Supports creation, cancellation, and retrieval of subscriptions.
+            </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Controllers.SubscriptionController.AddSubscription(FinanceTracker.Api.Models.Subscription)">
+            <summary>
+            Creates a new subscription for a user.
+            </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Controllers.SubscriptionController.GetUserSubscriptions(System.String)">
+            <summary>
+            Retrieves all active subscriptions for a user.
+            </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Controllers.SubscriptionController.CancelSubscription(System.String)">
+            <summary>
+            Cancels a subscription (soft delete).
+            </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Controllers.SubscriptionController.ProcessDue">
+            <summary>
+            Processes all due subscriptions and creates transactions.
+            </summary>
+        </member>
         <member name="T:FinanceTracker.Api.Controllers.UserManagementController">
             <summary>
              Controller responsible for handling user registration, login,
