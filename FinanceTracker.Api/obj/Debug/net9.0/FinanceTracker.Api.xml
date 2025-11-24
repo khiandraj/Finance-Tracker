@@ -4,76 +4,109 @@
         <name>FinanceTracker.Api</name>
     </assembly>
     <members>
-        <member name="T:FinanceTracker.Api.Controllers.FinanceController">
+        <member name="T:FinanceTracker.Api.Controllers.UserManagementController">
             <summary>
-            Controller responsible for managing user registration, authentication,
-            and retrieval of registered users in the Finance Tracker API.
+             Controller responsible for handling user registration, login,
+             and retrieval — following Clean Architecture conventions.
+             </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Controllers.UserManagementController.AddUser(FinanceTracker.Api.Models.User)">
+            <summary>
+            Registers a new user after validating input.
             </summary>
         </member>
-        <member name="F:FinanceTracker.Api.Controllers.FinanceController._userCollection">
+        <member name="M:FinanceTracker.Api.Controllers.UserManagementController.Login(FinanceTracker.Api.Models.User)">
             <summary>
-            In-memory storage for all registered users.
+            Logs in a user after validating input.
             </summary>
         </member>
-        <member name="M:FinanceTracker.Api.Controllers.FinanceController.GetUsers(System.String)">
+        <member name="M:FinanceTracker.Api.Controllers.UserManagementController.GetUsers">
             <summary>
-            Retrieves a list of all registered users.
-            </summary>
-            <returns>
-            A collection of <see cref="T:FinanceTracker.Api.Controllers.User"/> objects currently stored in memory.
-            </returns>
-            <example>
-            GET: api/finance/users  
-            Response:
-            <code>
-            [
-              { "id": 1, "username": "alex123", "password": "******" },
-              { "id": 2, "username": "jane_doe", "password": "******" }
-            ]
-            </code>
-            </example>
-        </member>
-        <member name="M:FinanceTracker.Api.Controllers.FinanceController.Login(FinanceTracker.Api.Controllers.User)">
-            <summary>
-            Authenticates a user based on username and password.
-            </summary>
-            <param name="loginRequest">An object containing the username and password to verify.</param>
-            <returns>
-            A welcome message if login is successful.
-            Returns:
-            - 400 Bad Request if username or password is missing.
-            - 404 Not Found if the username does not exist.
-            - 401 Unauthorized if the password is incorrect.
-            - 200 OK with a success message if credentials are valid.
-            </returns>
-            <example>
-            POST: api/finance/login  
-            Request Body:
-            <code>
-            {
-              "username": "alex123",
-              "password": "SecurePass123"
-            }
-            </code>
-            Response:
-            <code>
-            "Welcome back, alex123!"
-            </code>
-            </example>
-        </member>
-        <member name="P:FinanceTracker.Api.Controllers.User.Id">
-            <summary>
-            Unique identifier for the user.
+            Returns all registered users (without passwords).
             </summary>
         </member>
-        <member name="P:FinanceTracker.Api.Controllers.User.Username">
+        <member name="M:FinanceTracker.Api.Helpers.SubscriptionHelper.Validate(System.Decimal,FinanceTracker.Api.Models.Frequency)">
             <summary>
-            Username used to log in.
+            Validate frequency and amount for a subscription.
             </summary>
         </member>
-        <member name="P:FinanceTracker.Api.Controllers.User.Password">
+        <member name="M:FinanceTracker.Api.Helpers.SubscriptionHelper.CalculateNext(System.DateTime,FinanceTracker.Api.Models.Frequency)">
             <summary>
-            User's password (should be hashed and secured in production).
+            Calculate the next payment date (UTC) given a frequency and current date.
+            If nextPayment is null, assumes from now.
+            </summary>
+        </member>
+        <member name="T:FinanceTracker.Api.Interfaces.ITransactionService">
+            <summary>
+            Minimal interface the SubscriptionService uses to record generated transactions.
+            Implement this in your Transactions module or replace with your concrete type.
+            </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Interfaces.ITransactionService.RecordTransactionAsync(MongoDB.Bson.ObjectId,System.Decimal,System.String,System.DateTime,System.String)">
+            <summary>
+            Records a transaction for the given user.
+            Return true if recorded successfully.
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Models.Subscription.UserId">
+            <summary>
+            Owner user id of the subscription.
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Models.Subscription.Name">
+            <summary>
+            Human-readable name of the subscription (e.g., "Spotify", "Netflix").
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Models.Subscription.Amount">
+            <summary>
+            Recurring amount (decimal). Use minor units if your app requires precision.
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Models.Subscription.Currency">
+            <summary>
+            Currency code (optional).
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Models.Subscription.Frequency">
+            <summary>
+            Frequency of recurrence.
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Models.Subscription.NextPaymentUtc">
+            <summary>
+            Next scheduled payment (UTC).
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Models.Subscription.IsActive">
+            <summary>
+            Whether the subscription is active.
+            </summary>
+        </member>
+        <member name="P:FinanceTracker.Api.Models.Subscription.Notes">
+            <summary>
+            Optional notes.
+            </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Services.SubscriptionService.ProcessDueSubscriptionsAsync(System.DateTime)">
+            <summary>
+            Processes all subscriptions that are due at or before 'asOfUtc' - creates transactions and updates NextPaymentUtc.
+            Returns the count of processed subscriptions.
+            </summary>
+        </member>
+        <member name="M:FinanceTracker.Api.Services.SubscriptionService.CancelSubscriptionAsync(MongoDB.Bson.ObjectId)">
+            <summary>
+            Cancel (soft delete) subscription.
+            </summary>
+        </member>
+        <member name="T:FinanceTracker.Api.Services.UserService">
+            <summary>
+            Handles user-related business logic and database operations.
+            </summary>
+        </member>
+        <member name="T:FinanceTracker.Api.Services.ServiceResult">
+            <summary>
+            Wrapper for service responses, allowing consistent controller communication.
             </summary>
         </member>
     </members>
