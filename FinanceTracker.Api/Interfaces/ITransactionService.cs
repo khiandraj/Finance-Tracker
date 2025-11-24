@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FinanceTracker.Api.Models;
+using MongoDB.Bson;
 
 namespace FinanceTracker.Api.Interfaces
 {
