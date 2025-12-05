@@ -1,4 +1,5 @@
-﻿using FinanceTracker.Api.Models;
+﻿using FinanceTracker.Api.Helpers;
+using FinanceTracker.Api.Models;
 using FinanceTracker.Api.Services;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -216,15 +217,15 @@ namespace FinanceTracker.Api.Tests.Services
             // Arrange
             var users = new[]
             {
-                new User
-                {
-                    Id = ObjectId.GenerateNewId(),
-                    Username = "user1",
-                    Password = "hash1",
-                    Role = "User",
-                    EncryptedLastLoggedOn = "encrypted1"
-                }
-            };
+        new User
+        {
+            Id = ObjectId.GenerateNewId(),
+            Username = "user1",
+            Password = "hash1",
+            Role = "User",
+            EncryptedLastLoggedOn = EncryptionHelper.Encrypt(DateTime.UtcNow.ToString("o"))
+        }
+    };
 
             var mockCursor = new Mock<IAsyncCursor<User>>();
             mockCursor.Setup(c => c.Current).Returns(users);
