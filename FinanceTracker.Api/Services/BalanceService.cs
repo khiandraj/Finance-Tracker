@@ -10,7 +10,7 @@ namespace FinanceTracker.Api.Services
 
         public BalanceService(IMongoClient client)
         {
-            var database = client.GetDatabase("FinanceTrackerDb");
+            var database = client.GetDatabase("FinanceTrackerDB");
             _balances = database.GetCollection<BalanceRecord>("UserBalances");
         }
 

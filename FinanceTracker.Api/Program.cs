@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+
 using System.IO;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using MongoDB.Driver;
@@ -36,7 +36,7 @@ builder.Services.AddSwaggerGen(c =>
 // ----------------------------
 // MongoDB Client
 // ----------------------------
-var mongoConnection = Environment.GetEnvironmentVariable("MONGOCONNECTION") 
+var mongoConnection = Environment.GetEnvironmentVariable("MONGOCONNECTION")
     ?? builder.Configuration.GetConnectionString("MongoConnection");
 
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoConnection));
@@ -89,5 +89,4 @@ app.MapGet("/", () => "Finance Tracker API is running!");
 app.MapControllers();
 
 app.Run();
-
 
