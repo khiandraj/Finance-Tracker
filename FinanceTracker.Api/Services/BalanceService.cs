@@ -16,8 +16,12 @@ namespace FinanceTracker.Api.Services
 
         public async Task<BalanceRecord?> GetBalanceByUserId(string userId)
         {
-            return await _balances.Find(b => b.UserId == userId).FirstOrDefaultAsync();
+            // Use a FilterDefinition + FindAsync so it’s easy to mock
+            var filter = Builders<BalanceRecord>.Filter.Eq(b => b.UserId, userId);
+            var cursor = await _balances.FindAsync(filter);
+            return await cursor.FirstOrDefaultAsync();
         }
+
 
         public async Task<BalanceRecord> CreateBalanceRecord(string userId)
         {
@@ -57,7 +61,9 @@ namespace FinanceTracker.Api.Services
 
         public async Task<bool> DeleteBalanceRecord(string userId)
         {
-            var result = await _balances.DeleteOneAsync(b => b.UserId == userId);
+            // Same idea: use FilterDefinition so tests can mock DeleteOneAsync(filter)
+            var filter = Builders<BalanceRecord>.Filter.Eq(b => b.UserId, userId);
+            var result = await _balances.DeleteOneAsync(filter);
             return result.DeletedCount > 0;
         }
     }

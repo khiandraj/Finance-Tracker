@@ -6,23 +6,25 @@ namespace FinanceTracker.Api.Models
 {
     public enum Frequency
     {
-        Daily, 
-        Weekly, 
-        BiWeekly, 
-        Monthly, 
-        Quarterly, 
-        SemiAnnually, 
+        Daily,
+        Weekly,
+        BiWeekly,
+        Monthly,
+        Quarterly,
+        SemiAnnually,
         Annually
     }
 
     public class Subscription
     {
         [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
 
         /// <summary>
         /// Owner user id of the subscription.
         /// </summary>
+        [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId UserId { get; set; }
 
         /// <summary>

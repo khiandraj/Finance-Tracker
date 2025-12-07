@@ -6,6 +6,7 @@ using FinanceTracker.Api.Models;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace FinanceTracker.Api.Tests.Services
 {
@@ -22,7 +23,8 @@ namespace FinanceTracker.Api.Tests.Services
             _mockDatabase = new Mock<IMongoDatabase>();
             _mockCollection = new Mock<IMongoCollection<BalanceRecord>>();
 
-            _mockClient.Setup(c => c.GetDatabase("FinanceTrackerDb", null))
+            // MUST match BalanceService exactly: "FinanceTrackerDB"
+            _mockClient.Setup(c => c.GetDatabase("FinanceTrackerDB", null))
                 .Returns(_mockDatabase.Object);
 
             _mockDatabase.Setup(d => d.GetCollection<BalanceRecord>("UserBalances", null))
@@ -31,36 +33,38 @@ namespace FinanceTracker.Api.Tests.Services
             _balanceService = new BalanceService(_mockClient.Object);
         }
 
-        // Helper to setup Find operations that return null
+        // ---------- helpers for FindAsync ----------
+
         private void SetupFindReturnsNull()
         {
             var mockCursor = new Mock<IAsyncCursor<BalanceRecord>>();
             mockCursor.Setup(c => c.Current).Returns(Array.Empty<BalanceRecord>());
-            mockCursor.Setup(c => c.MoveNextAsync(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(false);
+            mockCursor.SetupSequence(c => c.MoveNextAsync(It.IsAny<CancellationToken>()))
+                      .ReturnsAsync(false);
 
             _mockCollection.Setup(c => c.FindAsync(
-                It.IsAny<FilterDefinition<BalanceRecord>>(),
-                It.IsAny<FindOptions<BalanceRecord, BalanceRecord>>(),
-                It.IsAny<CancellationToken>()))
+                    It.IsAny<FilterDefinition<BalanceRecord>>(),
+                    It.IsAny<FindOptions<BalanceRecord, BalanceRecord>>(),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mockCursor.Object);
         }
 
-        // Helper to setup Find operations that return a balance
         private void SetupFindReturnsBalance(BalanceRecord balance)
         {
             var mockCursor = new Mock<IAsyncCursor<BalanceRecord>>();
             mockCursor.Setup(c => c.Current).Returns(new[] { balance });
             mockCursor.SetupSequence(c => c.MoveNextAsync(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(true)
-                .ReturnsAsync(false);
+                      .ReturnsAsync(true)
+                      .ReturnsAsync(false);
 
             _mockCollection.Setup(c => c.FindAsync(
-                It.IsAny<FilterDefinition<BalanceRecord>>(),
-                It.IsAny<FindOptions<BalanceRecord, BalanceRecord>>(),
-                It.IsAny<CancellationToken>()))
+                    It.IsAny<FilterDefinition<BalanceRecord>>(),
+                    It.IsAny<FindOptions<BalanceRecord, BalanceRecord>>(),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mockCursor.Object);
         }
+
+        // ---------- tests ----------
 
         [Fact]
         public async Task GetBalanceByUserId_ReturnsBalance()
@@ -75,7 +79,8 @@ namespace FinanceTracker.Api.Tests.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(userId, result.UserId);
+            Assert.Equal(userId, result!.UserId);
+            Assert.Equal(100m, result.Balance);
         }
 
         [Fact]
@@ -97,9 +102,9 @@ namespace FinanceTracker.Api.Tests.Services
             // Arrange
             var userId = "newuser";
             _mockCollection.Setup(c => c.InsertOneAsync(
-                It.IsAny<BalanceRecord>(),
-                null,
-                It.IsAny<CancellationToken>()))
+                    It.IsAny<BalanceRecord>(),
+                    null,
+                    It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
             // Act
@@ -119,10 +124,10 @@ namespace FinanceTracker.Api.Tests.Services
             SetupFindReturnsBalance(balance);
 
             _mockCollection.Setup(c => c.ReplaceOneAsync(
-                It.IsAny<FilterDefinition<BalanceRecord>>(),
-                It.IsAny<BalanceRecord>(),
-                It.IsAny<ReplaceOptions>(),
-                It.IsAny<CancellationToken>()))
+                    It.IsAny<FilterDefinition<BalanceRecord>>(),
+                    It.IsAny<BalanceRecord>(),
+                    It.IsAny<ReplaceOptions>(),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<ReplaceOneResult>());
 
             // Act
@@ -141,10 +146,10 @@ namespace FinanceTracker.Api.Tests.Services
             SetupFindReturnsBalance(balance);
 
             _mockCollection.Setup(c => c.ReplaceOneAsync(
-                It.IsAny<FilterDefinition<BalanceRecord>>(),
-                It.IsAny<BalanceRecord>(),
-                It.IsAny<ReplaceOptions>(),
-                It.IsAny<CancellationToken>()))
+                    It.IsAny<FilterDefinition<BalanceRecord>>(),
+                    It.IsAny<BalanceRecord>(),
+                    It.IsAny<ReplaceOptions>(),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<ReplaceOneResult>());
 
             // Act
@@ -162,8 +167,8 @@ namespace FinanceTracker.Api.Tests.Services
             mockResult.Setup(r => r.DeletedCount).Returns(1);
 
             _mockCollection.Setup(c => c.DeleteOneAsync(
-                It.IsAny<FilterDefinition<BalanceRecord>>(),
-                It.IsAny<CancellationToken>()))
+                    It.IsAny<FilterDefinition<BalanceRecord>>(),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mockResult.Object);
 
             // Act
@@ -181,8 +186,8 @@ namespace FinanceTracker.Api.Tests.Services
             mockResult.Setup(r => r.DeletedCount).Returns(0);
 
             _mockCollection.Setup(c => c.DeleteOneAsync(
-                It.IsAny<FilterDefinition<BalanceRecord>>(),
-                It.IsAny<CancellationToken>()))
+                    It.IsAny<FilterDefinition<BalanceRecord>>(),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mockResult.Object);
 
             // Act
